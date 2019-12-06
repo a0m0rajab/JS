@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Interactive colours.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="code.js"></script>
+<style>
+  img {
+         display: block;
+     
+        width: auto;
+        object-fit: contain;
+        
+  }
+  </style>
+</head>
+<body style="float:left;">
+    <h1>Chroma</h1>
+    <hr>
+    <img  style="width: 50%;" id="source" src="pizzaGree.jpg" alt="A Pizza against a greenscreen " />
+    <hr>
+
+    <script>
+    var img = $("#source").get(0);
+    var $canvasbg = $("<div id='target-container' />");
+    var canvas = $("<canvas class='greenscreen'></canvas>").get(0);
+    $canvasbg.append(canvas);
+    $('body').append($canvasbg);
+    img.onload = function() {
+        greenScreen(img, canvas, $canvasbg);
+    };
+    function greenScreen(img, canvas, $container, bg) {
+    var context = canvas.getContext('2d');
+    canvas.width = img.clientWidth;
+    canvas.height = img.clientHeight;
+    $container.width(img.clientWidth);
+    $container.height(img.clientHeight);
+    context.drawImage(img, 0, 0);
+    
+    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    var data = imageData.data;
+    var start = {
+        red: data[0],
+        green: data[1],
+        blue: data[2]
+    };
+
+    // iterate over all pixels
+    let tolerance=150;
+    for(var i = 0, n = data.length; i < n; i += 4) {
+        var diff = Math.abs(data[i] - data[0]) + Math.abs(data[i+1] - data[1]) + Math.abs(data[i+2] - data[2]);
+        if(diff < tolerance) {
+data[i + 3] = 0;
+}    }
+    context.putImageData(imageData, 0, 0);
+    $container.css('background',"red");
+}
+    </script>
+ </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Interactive colours.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+ <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="code.js"></script>
+   <style>
+body {
+    /* background-color: brown; */
+}
+</style>
+</head>
+<body>
+    <h1>RGB</h1>
+    <div>
+      <input value="0" type="range" name="Rc" id="Rc" min="0" max="255" 
+      data-toggle="tooltip"
+      onmousemove="setToolTip(this)"
+      onchange="setColour()"> 255
+      <br>
+      <input value="255" type="range" name="Rc" id="Gc" min="0" max="255"  
+       data-toggle="tooltip"
+      onmousemove="setToolTip(this)"
+       onchange="setColour()"> 255
+       <br>
+       <input value="0" type="range" name="Rc" id="Bc" min="0" max="255"
+      data-toggle="tooltip"
+      onmousemove="setToolTip(this)"
+        onchange="setColour()"> 255
+        <div id="Result" style="width:500px;height:100px;border:1px solid #000;"></div>
+        <br>
+        <button onclick="submitted()">onayla</button>
+        <pre id="report"></pre>
+    </div>
+    <div></div>
+    <p> </p>
+    <hr>
+    <h1>Target</h1>
+    <div>
+      
+        <div id="asked" style="width:500px;height:100px;border:1px solid #000;"></div>
+    </div>
+
+    <script>
+        $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+function setToolTip(target){
+    console.log(target)
+    //target.dataset.originalTitle=target.value
+    $(target)
+    // .tooltip('hide')
+          .attr('data-original-title', target.value)
+        //  .tooltip('fixTitle')
+          .tooltip('show');
+}
+function submitted(){
+    let x = compare(Result,asked)
+    report.innerText= x.join("\n")
+}
+asked.style.backgroundColor = `RGB(0,0,255)`;
+    setColour()
+
+    </script>
+      
+ </body>
+</html>
