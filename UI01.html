@@ -7,18 +7,55 @@
     <title>Chroma
     </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-   </head>
-<body>
+   
+   <!-- Tangle -->
+   <script type="text/javascript" src="Tangle.js"></script>
+
+   <!-- TangleKit (optional) -->
+   <link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
+   <script type="text/javascript" src="TangleKit/mootools.js"></script>
+   <script type="text/javascript" src="TangleKit/sprintf.js"></script>
+   <script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
+   <script type="text/javascript" src="TangleKit/TangleKit.js"></script>
+
+   <!-- example -->
+   <script type="text/javascript">
+      let xGlobal,yGlobal;
+       function setUpTangle () {
+
+           var element = document.getElementById("codeText");
+
+           var tangle = new Tangle(element, {
+               initialize: function () {
+                   this.xRatio =xGlobal = 50;
+                   this.yRatio = yGlobal= 50 ;
+               },
+               update: function () {
+                xGlobal= this.xRatio;
+                yGlobal= this.yRatio  ;
+                 clear(sourceLine)
+                  drawPart(sourceLine,this.xRatio,this.yRatio)
+               }
+           });
+       }
+
+   </script>
+  </head>
+<body onload="setUpTangle();">
     <div class="container">
         <div class="row">
           <div class="col-sm">
             One of three columns
             <canvas class="img-thumbnail" id=source></canvas>
+            <canvas class="img-thumbnail" id=sourceLine style="transform: translate(-100%,0%);
+            position: absolute;    background-color: transparent;"></canvas>
+
             <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
           </div>
           <div class="col-sm">
             One of three columns
             <canvas class="img-thumbnail" id=bg></canvas>
+          
             <!-- <img id=target src="bg.jpg"  class="img-thumbnail" alt="" srcset=""> -->
 
           </div>
@@ -30,7 +67,11 @@
           </div>
         </div>
         <div class="row">
-            KOD KOD 
+           <pre id=codeText>
+            for x= <span data-var="xRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>
+              for y= <span data-var="yRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>
+                 <a href="#" onclick="composite()"> getImage();</a>
+           </pre>
         </div>
       </div>
       <script>
@@ -49,7 +90,8 @@ img.onload = function() {
       function greenScreen() {
           let src= document.getElementById("source");
         let ctx=  src.getContext("2d");
-    let imageData = ctx.getImageData(0, 0,src.width,src.height);
+        // interactive
+    let imageData = ctx.getImageData(0, 0,src.width*xGlobal/100,src.height*yGlobal/100);
     let data = imageData.data;
     
     // iterate over all pixels
@@ -76,6 +118,17 @@ function composite()
     ctx.drawImage(TempCanvas, 0, 0);
    // result.drawImage();
   
+}
+
+function clear(canvasID){
+ let ctx = canvasID.getContext("2d")
+ ctx.clearRect(0,0,canvasID.width,canvasID.height)
+}
+function drawPart(canvasID,x,y){
+  let ctx = canvasID.getContext("2d")
+  ctx.beginPath();
+ctx.rect(0, 0,canvasID.width*x/100, canvasID.height*y/100);
+ctx.stroke();
 }
       loadImg("source","pizzaGree.jpg")
       loadImg("bg","bg.jpg")

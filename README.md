@@ -4,6 +4,7 @@ A small repo for educational reasons.
 [Live page](a0m0rajab.github.io/JS)
 
 [Green Screen](Chrome.html)
+[Green Screen 1](UI01.html)
 
 [compare](compare.html)
 
