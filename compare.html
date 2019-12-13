@@ -17,35 +17,39 @@ body {
 </style>
 </head>
 <body>
-    <h1>RGB</h1>
-    <div>
-      <input value="0" type="range" name="Rc" id="Rc" min="0" max="255" 
-      data-toggle="tooltip"
-      onmousemove="setToolTip(this)"
-      onchange="setColour()"> 255
-      <br>
-      <input value="255" type="range" name="Rc" id="Gc" min="0" max="255"  
-       data-toggle="tooltip"
-      onmousemove="setToolTip(this)"
-       onchange="setColour()"> 255
-       <br>
-       <input value="0" type="range" name="Rc" id="Bc" min="0" max="255"
-      data-toggle="tooltip"
-      onmousemove="setToolTip(this)"
-        onchange="setColour()"> 255
-        <div id="Result" style="width:500px;height:100px;border:1px solid #000;"></div>
-        <br>
-        <button onclick="submitted()">onayla</button>
-        <pre id="report"></pre>
-    </div>
-    <div></div>
-    <p> </p>
-    <hr>
-    <h1>Target</h1>
-    <div>
-      
-        <div id="asked" style="width:500px;height:100px;border:1px solid #000;"></div>
-    </div>
+    <center>
+
+        <h1>RGB</h1>
+        <div>
+          <input value="0" type="range" name="Rc" id="Rc" min="0" max="255" 
+          data-toggle="tooltip"
+          onmousemove="setToolTip(this)"
+          onchange="setColour()"> 255
+          <br>
+          <input value="0" type="range" name="Rc" id="Gc" min="0" max="255"  
+           data-toggle="tooltip"
+          onmousemove="setToolTip(this)"
+           onchange="setColour()"> 255
+           <br>
+           <input value="0" type="range" name="Rc" id="Bc" min="0" max="255"
+          data-toggle="tooltip"
+          onmousemove="setToolTip(this)"
+            onchange="setColour()"> 255
+            <div id="Result" style="width:500px;height:100px;border:1px solid #000;"></div>
+            <br>
+            <button onclick="submitted()">onayla</button>
+            <pre id="report"></pre>
+        </div>
+        <div></div>
+        <p> </p>
+        <hr>
+        <h1>Target</h1>
+        <div>
+          
+            <div id="asked" style="width:500px;height:100px;border:1px solid #000;"></div>
+        </div>
+    </center>
+   
 
     <script>
         $(function () {
@@ -64,7 +68,9 @@ function submitted(){
     let x = compare(Result,asked)
     report.innerText= x.join("\n")
 }
-asked.style.backgroundColor = `RGB(0,0,255)`;
+
+let getRand = () => Math.floor(Math.random() * 256)
+asked.style.backgroundColor = `RGB(${getRand ()},${getRand ()},${getRand ()})`;
     setColour()
 
     </script>
