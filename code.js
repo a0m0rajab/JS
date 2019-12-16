@@ -18,19 +18,24 @@ function compare(source,target,hata=50) {
     let s = getColour(source)
     let t = getColour(target)
     let result =[];
+    let biRes=[];
     for (let i = 0; i < s.length; i++) {
         if(s[i] < t[i]-hata){
             result.push("up")
+            biRes.push(false)
         }
         else if(s[i] > t[i]+hata){
             result.push("down")
+            biRes.push(false)
         }
         else{
-            result.push(true)
+          biRes.push(true)
+          result.push(true)
         }
         
     }
-    return result
+    // move to JSon, better to understand.
+    return [result,biRes]
 }
 
 function greenKey(){

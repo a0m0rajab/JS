@@ -56,7 +56,7 @@ body {
   $('[data-toggle="tooltip"]').tooltip()
 })
 function setToolTip(target){
-    console.log(target)
+   // console.log(target)
     //target.dataset.originalTitle=target.value
     $(target)
     // .tooltip('hide')
@@ -66,7 +66,10 @@ function setToolTip(target){
 }
 function submitted(){
     let x = compare(Result,asked)
-    report.innerText= x.join("\n")
+    report.innerText= x[0].join("\n")
+    let b = x[1][0] && x[1][1] && x[1][2]
+    parent.postMessage(b, "*")
+
 }
 
 let getRand = () => Math.floor(Math.random() * 256)

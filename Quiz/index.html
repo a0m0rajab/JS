@@ -25,26 +25,39 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section data-markdown> 
-					#Hello
-</section>
-				<section>Slide 2
-					
+				<section style="width: 100vw;height: 100vh; left:-30%;">
+					<h1>Soru 1</h1>
+					<iframe style="width: 100vw;height: 80vh;" data-src="../compare.html" data-preload></iframe>
 				</section>
-				<section data-background-iframe="../compare.html" data-background-interactive>
+				<section style="width: 100vw;height: 100vh; left:-30%;">
+					<h1>Soru 2</h1>
+					<iframe style="width: 100vw;height: 80vh;" data-src="../compare.html" data-preload></iframe>
 				</section>
+				<section style="width: 100vw;height: 100vh; left:-30%;">
+					<h1>Soru 3</h1>
+					<iframe style="width: 100vw;height: 80vh;" data-src="../compare.html" data-preload></iframe>
+				</section>
+				<section >
+					<h1 id=scoreH></h1>
+				</section>
+
 			</div>
 		</div>
 
 		<script src="js/reveal.js"></script>
 
 		<script>
+			let score=0;
+			let count=0;
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				slideNumber:true,
 				controls: false,
 				keyboard: false,
+				transitionSpeed: 'slow', // default/fast/slow
+
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
@@ -53,5 +66,33 @@
 				]
 			});
 		</script>
+		<!-- message between child and parent.
+		https://gist.github.com/cirocosta/9f730967347faf9efb0b -->
+		<script>
+		var eventMethod = window.addEventListener
+			? "addEventListener"
+			: "attachEvent";
+	var eventer = window[eventMethod];
+	var messageEvent = eventMethod === "attachEvent"
+		? "onmessage"
+		: "message";
+	eventer(messageEvent, function (e) {
+		count++;
+		// if (e.origin !== 'http://the-trusted-iframe-origin.com') return;
+		
+		if (e.data === true || e.message === true) 
+			score++;
+
+		setTimeout(() => {
+			Reveal.next()
+		}, 1000);
+		scoreH.innerHTML=score;
+		// check number of questions answered.
+		if(count==3){
+			Reveal.configure({controls:true});
+		}
+		//console.log(e);
+	});
+	</script>
 	</body>
 </html>
