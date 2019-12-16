@@ -25,20 +25,28 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
+				<section>
+						Renkler oyununa Hosgeldin :) <br>
+						<button onclick="Reveal.next()">Baslat</button>
+				</section>
 				<section style="width: 100vw;height: 100vh; left:-30%;">
 					<h1>Soru 1</h1>
-					<iframe style="width: 100vw;height: 80vh;" data-src="../compare.html" data-preload></iframe>
+					<iframe style="width: 100vw;height: 80vh;" src="../compare.html" ></iframe>
 				</section>
 				<section style="width: 100vw;height: 100vh; left:-30%;">
 					<h1>Soru 2</h1>
-					<iframe style="width: 100vw;height: 80vh;" data-src="../compare.html" data-preload></iframe>
+					<iframe style="width: 100vw;height: 80vh;" src="../compare.html" ></iframe>
 				</section>
 				<section style="width: 100vw;height: 100vh; left:-30%;">
 					<h1>Soru 3</h1>
-					<iframe style="width: 100vw;height: 80vh;" data-src="../compare.html" data-preload></iframe>
+					<iframe style="width: 100vw;height: 80vh;" src="../compare.html" ></iframe>
 				</section>
 				<section >
-					<h1 id=scoreH></h1>
+					<h1>Total Score</h1>
+					<h2 id=scoreH></h2>
+					<!-- <h2>RGB score</h2>
+					<h2>HSL score</h2> -->
+
 				</section>
 
 			</div>
@@ -85,11 +93,14 @@
 
 		setTimeout(() => {
 			Reveal.next()
-		}, 1000);
+		}, 0000);
 		scoreH.innerHTML=score;
 		// check number of questions answered.
 		if(count==3){
-			Reveal.configure({controls:true});
+			Reveal.configure({
+			controls:true,
+			keyboard:true
+		});
 		}
 		//console.log(e);
 	});

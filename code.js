@@ -34,7 +34,7 @@ function compare(source,target,hata=50) {
         }
         
     }
-    // move to JSon, better to understand.
+    // TODO move to JSon, better to understand.
     return [result,biRes]
 }
 
