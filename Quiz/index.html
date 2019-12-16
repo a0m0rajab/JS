@@ -116,8 +116,8 @@ if(count <= total){
 		}, 0000);
 }
 		scoreH.innerHTML= Math.floor(score*100/total )+ "%";
-		hslScoreSp.innerHTML=Math.floor(HSLScore*100/total/2 )+ "%";
-		rgbScoreSp.innerHTML = Math.floor(rgbScore*100/total/2 )+ "%";
+		hslScoreSp.innerHTML=Math.floor(HSLScore*100/(total/2) )+ "%";
+		rgbScoreSp.innerHTML = Math.floor(rgbScore*100/(total/2) )+ "%";
 		// check number of questions answered.
 		if(count==total){
 			Reveal.configure({
