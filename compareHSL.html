@@ -19,23 +19,23 @@ body {
 <body>
     <center>
 
-        <h1>RGB</h1>
+        <h1>HSL</h1>
         <div>
-          <input value="0" type="range" name="Rc" id="Rc" min="0" max="255" 
+          <input value="0" type="range" name="Rc" id="Hc" min="0" max="360" 
           data-toggle="tooltip"
           onmousemove="setToolTip(this)"
-          onchange="setColour()"> 255
+          onchange="setColourHSL()"> 360
           <br>
-          <input value="0" type="range" name="Rc" id="Gc" min="0" max="255"  
+          <input value="0" type="range" name="Rc" id="Sc" min="0" max="100"  
            data-toggle="tooltip"
           onmousemove="setToolTip(this)"
-           onchange="setColour()"> 255
+           onchange="setColourHSL()"> 100
            <br>
-           <input value="0" type="range" name="Rc" id="Bc" min="0" max="255"
+           <input value="0" type="range" name="Rc" id="Lc" min="0" max="100"
           data-toggle="tooltip"
           onmousemove="setToolTip(this)"
-            onchange="setColour()"> 255
-            <div id="Result" style="width:500px;height:100px;border:1px solid #000;"></div>
+            onchange="setColourHSL()"> 100
+            <div id="ResultHSL" style="width:500px;height:100px;border:1px solid #000;"></div>
             <br>
             <button onclick="submitted()">onayla</button>
             <pre id="report"></pre>
@@ -65,16 +65,16 @@ function setToolTip(target){
           .tooltip('show');
 }
 function submitted(){
-    let x = compare(Result,asked)
+    let x = compare(ResultHSL,asked,10,"hsl")
     report.innerText= x[0].join("\n")
     let b = x[1][0] && x[1][1] && x[1][2]
-    parent.postMessage({res:b,type:"rgb"}, "*")
+    parent.postMessage({res:b,type:"hsl"}, "*")
 
 }
 
-let getRand = () => Math.floor(Math.random() * 256)
-asked.style.backgroundColor = `RGB(${getRand ()},${getRand ()},${getRand ()})`;
-    setColour()
+let getRand = (max) => Math.floor(Math.random() * max)
+asked.style.backgroundColor = `HSL(${getRand (360)},${getRand (100)}%,${getRand (100)}%)`;
+    setColourHSL()
 
     </script>
       

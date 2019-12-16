@@ -35,15 +35,23 @@
 				</section>
 				<section style="width: 100vw;height: 100vh; left:-30%;">
 					<h1>Soru 2</h1>
-					<iframe style="width: 100vw;height: 80vh;" src="../compare.html" ></iframe>
+					<iframe style="width: 100vw;height: 80vh;" src="../compareHSL.html" ></iframe>
 				</section>
 				<section style="width: 100vw;height: 100vh; left:-30%;">
 					<h1>Soru 3</h1>
 					<iframe style="width: 100vw;height: 80vh;" src="../compare.html" ></iframe>
 				</section>
+				<section style="width: 100vw;height: 100vh; left:-30%;">
+					<h1>Soru 4</h1>
+					<iframe style="width: 100vw;height: 80vh;" src="../compareHSL.html" ></iframe>
+				</section>
 				<section >
 					<h1>Total Score</h1>
 					<h2 id=scoreH></h2>
+					<p>
+						RGB Score = <span id=rgbScoreSp></span><br>
+						HSL score = <span id=hslScoreSp></span><br>
+					</p>
 					<!-- <h2>RGB score</h2>
 					<h2>HSL score</h2> -->
 
@@ -56,7 +64,10 @@
 
 		<script>
 			let score=0;
+			let rgbScore=0;
+			let HSLScore=0;
 			let count=0;
+			let total=4;
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
@@ -87,16 +98,28 @@
 	eventer(messageEvent, function (e) {
 		count++;
 		// if (e.origin !== 'http://the-trusted-iframe-origin.com') return;
-		
-		if (e.data === true || e.message === true) 
+		 e = e.data || e.message;
+		if (e.res === true) {
 			score++;
+			if(e.type==="hsl"){
+				HSLScore++;
 
-		setTimeout(() => {
+			}else{
+				rgbScore++;
+			}
+		}
+			
+	
+if(count <= total){
+	setTimeout(() => {
 			Reveal.next()
 		}, 0000);
-		scoreH.innerHTML=score;
+}
+		scoreH.innerHTML= Math.floor(score*100/total )+ "%";
+		hslScoreSp.innerHTML=Math.floor(HSLScore*100/total/2 )+ "%";
+		rgbScoreSp.innerHTML = Math.floor(rgbScore*100/total/2 )+ "%";
 		// check number of questions answered.
-		if(count==3){
+		if(count==total){
 			Reveal.configure({
 			controls:true,
 			keyboard:true
