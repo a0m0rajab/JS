@@ -37,7 +37,7 @@ body {
             onchange="setColourHSL()"> 100
             <div id="ResultHSL" style="width:500px;height:100px;border:1px solid #000;"></div>
             <br>
-            <button onclick="submitted()">onayla</button>
+            <button id=submit onclick="submitted()">onayla</button>
             <pre id="report"></pre>
         </div>
         <div></div>
@@ -63,12 +63,30 @@ function setToolTip(target){
           .attr('data-original-title', target.value)
         //  .tooltip('fixTitle')
           .tooltip('show');
+          setColourHSL()
 }
+let b;
+let clicked= false
 function submitted(){
     let x = compare(ResultHSL,asked,10,"hsl")
-    report.innerText= x[0].join("\n")
-    let b = x[1][0] && x[1][1] && x[1][2]
+    b = x[1][0] && x[1][1] && x[1][2]
+    let message="";
+    if(b){
+        message="Dogru yaptin :) 🥇\n"
+    }else{
+        message= "Cok yaklastin, bir sonraki sefer guzel sonuc alirsin :)    \n"
+    }
+    report.innerText =message + x[0].join("\n")
+    if(!clicked){
+        submit.innerText="Bir sonraki dene";
+        submit.onclick= nextSlide;
+        clicked=true
+    }
+}
+function nextSlide(){
     parent.postMessage({res:b,type:"hsl"}, "*")
+    submit.innerText="Kontrol et";
+    submit.onclick= submitted;
 
 }
 
