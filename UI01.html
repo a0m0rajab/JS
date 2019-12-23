@@ -20,21 +20,33 @@
 
    <!-- example -->
    <script type="text/javascript">
-      let xGlobal,yGlobal;
+   let xStart,xEnd,yStart,yEnd;
        function setUpTangle () {
 
            var element = document.getElementById("codeText");
 
            var tangle = new Tangle(element, {
                initialize: function () {
-                   this.xRatio =xGlobal = 50;
-                   this.yRatio = yGlobal= 50 ;
+                   this.xRatio  = xEnd =50;
+                   this.yRatio = yEnd= 50 ;
+                   this.xStartRatio =xStart= 0;
+                   this.yStartRatio = yStart=0;
+                   this.red=0;
+                   this.green=255;
+                   this.blue=0;
+
                },
                update: function () {
-                xGlobal= this.xRatio;
-                yGlobal= this.yRatio  ;
+                   xEnd= this.xRatio    ;
+                   yEnd= this.yRatio  ;
+                   xStart = this.xStartRatio ;
+                   ySTart = this.yStartRatio ;
+                   colour.red= this.red;
+                   colour.green=this.green;
+                   colour.blue= this.blue;
+
                  clear(sourceLine)
-                  drawPart(sourceLine,this.xRatio,this.yRatio)
+                  drawPart(sourceLine, this.xStartRatio, this.yStartRatio,this.xRatio,this.yRatio)
                }
            });
        }
@@ -67,13 +79,23 @@
           </div>
         </div>
         <div class="row">
-           <pre id=codeText>
-            for x= <span data-var="xRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>
-              for y= <span data-var="yRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>
-                 <a href="#" onclick="composite()"> getImage();</a>
+          
+              <pre id=codeText>
+              <label for="sourceUpload">getSource()</label>
+              <label for="targetUpload">getBackground()</label>
+              set RGB colour (<span data-var="red" class="TKAdjustableNumber" data-min="1" data-max="255"></span>, <span data-var="green" class="TKAdjustableNumber" data-min="1" data-max="255"></span>,<span data-var="blue" class="TKAdjustableNumber" data-min="1" data-max="255"></span>)
+              for x = <span data-var="xRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> <!-- from <span  data-var="xStartRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> to  -->
+              for y = <span data-var="yRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> <!-- from <span data-var="yStartRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> to  -->
+                 <a href="#" onclick="composite()">SwapPixels();</a>
+              fds
+                         
            </pre>
         </div>
       </div>
+      <input type="file" id="sourceUpload" style="opacity:0;"name="image_uploads" accept="image/*" onchange="sourceSubmit()">   
+      <input type="file" id="targetUpload" style="opacity:0;"name="image_uploads" accept="image/*" onchange="targetSubmit()">   
+
+
       <script>
           function loadImg(targetID,src){
             
@@ -87,17 +109,27 @@ img.onload = function() {
 };
           }
          
+      let colour={
+        red: 0,
+        green:255,
+        blue:0,
+      }   
       function greenScreen() {
           let src= document.getElementById("source");
         let ctx=  src.getContext("2d");
         // interactive
-    let imageData = ctx.getImageData(0, 0,src.width*xGlobal/100,src.height*yGlobal/100);
-    let data = imageData.data;
-    
+        let imageData = ctx.getImageData(src.width*xStart/100, src.height*yStart/100,src.width*xEnd/100,src.height*yEnd/100);
+        let data = imageData.data;
+    // // set colour based on the conrner.
+    // colour={
+    //     red: data[0],
+    //     green:data[1],
+    //     blue:data[2],
+    //   }   
     // iterate over all pixels
     let tolerance=150;
     for(var i = 0, n = data.length; i < n; i += 4) {
-        var diff = Math.abs(data[i] - data[0]) + Math.abs(data[i+1] - data[1]) + Math.abs(data[i+2] - data[2]);
+        var diff = Math.abs(data[i] - colour.red) + Math.abs(data[i+1] - colour.green) + Math.abs(data[i+2] - colour.blue);
         if(diff < tolerance) {
 data[i + 3] = 1;
 }    }
@@ -113,9 +145,9 @@ function composite()
     let imgData = greenScreen();
     let TempCanvas = document.createElement('canvas');
     let TempCtx = TempCanvas.getContext('2d');
-    TempCtx.putImageData(imgData, 0, 0);
+    TempCtx.putImageData(imgData, 0,0);
 
-    ctx.drawImage(TempCanvas, 0, 0);
+    ctx.drawImage(TempCanvas,xStart,yStart);
    // result.drawImage();
   
 }
@@ -124,14 +156,46 @@ function clear(canvasID){
  let ctx = canvasID.getContext("2d")
  ctx.clearRect(0,0,canvasID.width,canvasID.height)
 }
-function drawPart(canvasID,x,y){
+function drawPart(canvasID,xStart,yStart,xEnd,yEnd){
   let ctx = canvasID.getContext("2d")
   ctx.beginPath();
-ctx.rect(0, 0,canvasID.width*x/100, canvasID.height*y/100);
-ctx.stroke();
+  ctx.rect(canvasID.width*xStart/100, canvasID.height*yStart/100,canvasID.width*xEnd/100, canvasID.height*yEnd/100);
+  ctx.stroke();
 }
+
+
       loadImg("source","pizzaGree.jpg")
       loadImg("bg","bg.jpg")
+
+      // Loading image script -- MDN
+      // return path to temp pic 
+      let tempPath="";
+function showImage(src,target) {
+    let x = target;
+    let fr = new FileReader();
+    fr.onload = function(){
+        tempPath= fr.result;
+        loadImg(x,fr.result);
+    }
+    fr.readAsDataURL(src.files[0]);
+}
+
+function imgUpload(source,toTarget) {
+    let src = document.getElementById(source);
+
+    showImage(src, toTarget);
+}
+function sourceSubmit(){
+  clear(source);
+
+  imgUpload("sourceUpload","source")
+  
+}
+function targetSubmit(){
+  clear(bg);
+
+  imgUpload("targetUpload","bg");
+}
 
       </script>
       <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
