@@ -31,9 +31,9 @@
                    this.yRatio = yEnd= 50 ;
                    this.xStartRatio =xStart= 0;
                    this.yStartRatio = yStart=0;
-                   this.red=0;
-                   this.green=255;
-                   this.blue=0;
+                   this.red=50;
+                   this.green=50;
+                   this.blue=50;
 
                },
                update: function () {
@@ -57,7 +57,7 @@
     <div class="container">
         <div class="row">
           <div class="col-sm">
-            One of three columns
+            Source image
             <canvas class="img-thumbnail" id=source></canvas>
             <canvas class="img-thumbnail" id=sourceLine style="transform: translate(-100%,0%);
             position: absolute;    background-color: transparent;"></canvas>
@@ -65,14 +65,14 @@
             <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
           </div>
           <div class="col-sm">
-            One of three columns
-            <canvas class="img-thumbnail" id=bg></canvas>
+           Gray scaled
+            <canvas class="img-thumbnail" id=gray></canvas>
           
             <!-- <img id=target src="bg.jpg"  class="img-thumbnail" alt="" srcset=""> -->
 
           </div>
           <div class="col-sm">
-            One of three columns
+            Blob detected
             <canvas id=result class="img-thumbnail" >
                 <!-- <img id=result src="mario.jpg" class="img-thumbnail" alt="" srcset="">           -->
             </canvas>
@@ -81,13 +81,17 @@
         <div class="row">
           
               <pre id=codeText>
-              <label style="cursor:pointer; color: #007bff;" for="sourceUpload">getSource()</label>
-              <label style="cursor:pointer; color: #007bff;" for="targetUpload">getBackground()</label>
-              set RGB colour (<span data-var="red" class="TKAdjustableNumber" data-min="1" data-max="255"></span>, <span data-var="green" class="TKAdjustableNumber" data-min="1" data-max="255"></span>,<span data-var="blue" class="TKAdjustableNumber" data-min="1" data-max="255"></span>)
+              <label style="cursor:pointer; color: #007bff;" for="sourceUpload">getImage()</label>
               for x = <span data-var="xRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> <!-- from <span  data-var="xStartRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> to  -->
-              for y = <span data-var="yRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> <!-- from <span data-var="yStartRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> to  -->
-                 <a href="#" onclick="composite()">SwapPixels();</a>
-              fds
+               for y = <span data-var="yRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> <!-- from <span data-var="yStartRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> to  -->
+                    grayRatio = ( img(x,y).red * <span data-var="red" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>, img(x,y).green <span data-var="green" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>, img(x,y).blue * <span data-var="blue" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>)
+                    <a href="#" onclick="getGray()">getGrayScaledImage();</a>
+                    if(grayRatio <  <span data-var="xRatio" class="TKAdjustableNumber" data-min="1" data-max="255"></span> )
+                        img(x,y) = white                        <!-- can add RGB to change and have fun :)  -->
+                    else  
+                        img(x,y) = black
+               <a href="#" onclick="binaryImage()">GetBinarisedImage();</a>
+              
                          
            </pre>
         </div>
@@ -114,43 +118,72 @@ img.onload = function() {
         green:255,
         blue:0,
       }   
-      function greenScreen() {
-          let src= document.getElementById("source");
-        let ctx=  src.getContext("2d");
-        // interactive
-        let imageData = ctx.getImageData(src.width*xStart/100, src.height*yStart/100,src.width*xEnd/100,src.height*yEnd/100);
-        let data = imageData.data;
-    // // set colour based on the conrner.
-    // colour={
-    //     red: data[0],
-    //     green:data[1],
-    //     blue:data[2],
-    //   }   
+      function grayScaled() {
+       let imageData = getImageDataByID("source");
+        let data= imageData.data;
     // iterate over all pixels
-    let tolerance=150;
+   
     for(var i = 0, n = data.length; i < n; i += 4) {
-        var diff = Math.abs(data[i] - colour.red) + Math.abs(data[i+1] - colour.green) + Math.abs(data[i+2] - colour.blue);
-        if(diff < tolerance) {
-data[i + 3] = 1;
-}    }
+    data[i]= data[i]*33/100 
+    data[i+1]=data[i+1]*33/100 
+    data[i+2]= data[i+2] * 33/100
+}
   
    return imageData;
 }
+
+function getImageDataByID(id){
+    let src= document.getElementById(id);
+        let ctx=  src.getContext("2d");
+        // interactive
+        return imageData = ctx.getImageData(src.width*xStart/100, src.height*yStart/100,src.width*xEnd/100,src.height*yEnd/100);
+        
+}
+
+function binrisation(id="source"){
+    let imageData= getImageDataByID(id);
+    let data= imageData.data;
+    let grayRatio=150;
+    for(var i = 0, n = data.length; i < n; i += 4) {
+      var gray = data[i]+ data[i+1] + data[i+2] ;
+    if(gray > grayRatio) {
+            // pixel is white.
+            data[i] = data[i+1] =  data[i+2]= 0
+       data[i + 3] = 255;
+                             
+    }else {
+        // pixel black
+        data[i] = data[i+1] =  data[i+2]= 255
+       data[i + 3] = 255;
+    }   }
+    return imageData;
+}
       
-function composite()
+function binaryImage()
 {
     let ctx= result.getContext("2d")
-    ctx.drawImage(bg,0,0);
-    
-    let imgData = greenScreen();
-    let TempCanvas = document.createElement('canvas');
-    let TempCtx = TempCanvas.getContext('2d');
-    TempCtx.putImageData(imgData, 0,0);
+    ctx.drawImage(source,0,0);
+    let imgData = grayScaled();
+    ctx.putImageData(imgData, 0,0);
 
-    ctx.drawImage(TempCanvas,xStart,yStart);
-   // result.drawImage();
+    imgData= binrisation("result");
+    // let TempCanvas = document.createElement('canvas');
+    // let TempCtx = TempCanvas.getContext('2d');
+    ctx.putImageData(imgData, 0,0);
+
+    // ctx.drawImage(TempCanvas,xStart,yStart);
+    // result.drawImage();
   
 }
+
+function getGray(){
+    
+    let ctx= result.getContext("2d")
+    ctx.drawImage(source,0,0);
+    let imgData = grayScaled();
+    ctx.putImageData(imgData, 0,0);
+}
+
 
 function clear(canvasID){
  let ctx = canvasID.getContext("2d")
@@ -165,7 +198,6 @@ function drawPart(canvasID,xStart,yStart,xEnd,yEnd){
 
 
       loadImg("source","pizzaGree.jpg")
-      loadImg("bg","bg.jpg")
 
       // Loading image script -- MDN
       // return path to temp pic 
@@ -182,18 +214,14 @@ function showImage(src,target) {
 
 function imgUpload(source,toTarget) {
     let src = document.getElementById(source);
-
     showImage(src, toTarget);
 }
 function sourceSubmit(){
   clear(source);
-
-  imgUpload("sourceUpload","source")
-  
+  imgUpload("sourceUpload","source")  
 }
 function targetSubmit(){
   clear(bg);
-
   imgUpload("targetUpload","bg");
 }
 
