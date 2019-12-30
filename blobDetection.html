@@ -1,97 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chroma
-    </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-   
-   <!-- Tangle -->
-   <script type="text/javascript" src="Tangle.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Chroma</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
 
-   <!-- TangleKit (optional) -->
-   <link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css">
-   <script type="text/javascript" src="TangleKit/mootools.js"></script>
-   <script type="text/javascript" src="TangleKit/sprintf.js"></script>
-   <script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
-   <script type="text/javascript" src="TangleKit/TangleKit.js"></script>
+    <!-- Tangle -->
+    <script type="text/javascript" src="Tangle.js"></script>
 
-   <!-- example -->
-   <script type="text/javascript">
-   let xStart,xEnd,yStart,yEnd;
-       function setUpTangle () {
+    <!-- TangleKit (optional) -->
+    <link rel="stylesheet" href="TangleKit/TangleKit.css" type="text/css" />
+    <script type="text/javascript" src="TangleKit/mootools.js"></script>
+    <script type="text/javascript" src="TangleKit/sprintf.js"></script>
+    <script type="text/javascript" src="TangleKit/BVTouchable.js"></script>
+    <script type="text/javascript" src="TangleKit/TangleKit.js"></script>
 
-           var element = document.getElementById("codeText");
+    <!-- example -->
+    <script type="text/javascript">
+      let xStart, xEnd, yStart, yEnd;
+      function setUpTangle() {
+        var element = document.getElementById("codeText");
 
-           var tangle = new Tangle(element, {
-               initialize: function () {
-                   this.xRatio  = xEnd =50;
-                   this.yRatio = yEnd= 50 ;
-                   this.xStartRatio =xStart= 0;
-                   this.yStartRatio = yStart=0;
-                   this.red=50;
-                   this.green=50;
-                   this.blue=50;
+        var tangle = new Tangle(element, {
+          initialize: function() {
+            this.xRatio = xEnd = 50;
+            this.yRatio = yEnd = 50;
+            this.xStartRatio = xStart = 0;
+            this.yStartRatio = yStart = 0;
+            this.red = 50;
+            this.green = 50;
+            this.blue = 50;
+          },
+          update: function() {
+            xEnd = this.xRatio;
+            yEnd = this.yRatio;
+            xStart = this.xStartRatio;
+            ySTart = this.yStartRatio;
+            colour.red = this.red;
+            colour.green = this.green;
+            colour.blue = this.blue;
 
-               },
-               update: function () {
-                   xEnd= this.xRatio    ;
-                   yEnd= this.yRatio  ;
-                   xStart = this.xStartRatio ;
-                   ySTart = this.yStartRatio ;
-                   colour.red= this.red;
-                   colour.green=this.green;
-                   colour.blue= this.blue;
-
-                 clear(sourceLine)
-                  drawPart(sourceLine, this.xStartRatio, this.yStartRatio,this.xRatio,this.yRatio)
-               }
-           });
-       }
-
-   </script>
+            clear(sourceLine);
+            drawPart(
+              sourceLine,
+              this.xStartRatio,
+              this.yStartRatio,
+              this.xRatio,
+              this.yRatio
+            );
+          }
+        });
+      }
+    </script>
   </head>
-<body onload="setUpTangle();">
+  <body onload="setUpTangle();">
     <div class="container">
-        <div class="row">
-          <div class="col-sm">
-            Source image
-            <canvas class="img-thumbnail" id=source></canvas>
-            <canvas class="img-thumbnail" id=sourceLine style="transform: translate(-100%,0%);
-            position: absolute;    background-color: transparent;"></canvas>
+      <div class="row">
+        <div class="col-sm">
+          Source image
+          <canvas class="img-thumbnail" id="source"></canvas>
+          <canvas
+            class="img-thumbnail"
+            id="sourceLine"
+            style="transform: translate(-100%,0%);
+            position: absolute;    background-color: transparent;"
+          ></canvas>
 
+          <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
+        </div>
+        <div class="col-sm">
+          Gray scaled
+          <canvas class="img-thumbnail" id="gray"></canvas>
+
+          <!-- <img id=target src="bg.jpg"  class="img-thumbnail" alt="" srcset=""> -->
+        </div>
+        <div class="col-sm">
+          Binary Image
+          <canvas id="binary" class="img-thumbnail">
+            <!-- <img id=result src="mario.jpg" class="img-thumbnail" alt="" srcset="">           -->
+          </canvas>
+        </div>
+      </div>
+      <div class="row-">
+        <center>
+          <div class="col-sm">
+            Source image <br />
+            <canvas class="img-thumbnail" id="BlobImage"></canvas>
             <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
           </div>
-          <div class="col-sm">
-           Gray scaled
-            <canvas class="img-thumbnail" id=gray></canvas>
-          
-            <!-- <img id=target src="bg.jpg"  class="img-thumbnail" alt="" srcset=""> -->
-
-          </div>
-          <div class="col-sm">
-           Binary Image
-            <canvas id=binary class="img-thumbnail" >
-                <!-- <img id=result src="mario.jpg" class="img-thumbnail" alt="" srcset="">           -->
-            </canvas>
-          </div>
-        
-        </div>
-        <div class="row-">
-          <center>
-            <div class="col-sm">
-              Source image <br>
-              <canvas class="img-thumbnail" id=BlobImage></canvas>
-              <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
-            </div>
-          </center>
-       
-        </div>
-        <div class="row">
-          
-              <pre id=codeText>
+        </center>
+      </div>
+      <div class="row">
+        <pre id="codeText">
               <label style="cursor:pointer; color: #007bff;" for="sourceUpload">getImage()</label>
               for width = <span data-var="xRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> <!-- from <span  data-var="xStartRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> to  -->
                for height = <span data-var="yRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> <!-- from <span data-var="yStartRatio" class="TKAdjustableNumber" data-min="1" data-max="100">%</span> to  -->
@@ -109,356 +116,423 @@
 
                          
            </pre>
-        </div>
       </div>
-      <input hidden type="file" id="sourceUpload" style="opacity:0;"name="image_uploads" accept="image/*" onchange="sourceSubmit()">   
-      <input hidden type="file" id="targetUpload" style="opacity:0;"name="image_uploads" accept="image/*" onchange="targetSubmit()">   
+    </div>
+    <input
+      hidden
+      type="file"
+      id="sourceUpload"
+      style="opacity:0;"
+      name="image_uploads"
+      accept="image/*"
+      onchange="sourceSubmit()"
+    />
+    <input
+      hidden
+      type="file"
+      id="targetUpload"
+      style="opacity:0;"
+      name="image_uploads"
+      accept="image/*"
+      onchange="targetSubmit()"
+    />
 
+    <script>
+      function loadImg(targetID, src) {
+        let canvas = document.getElementById(targetID);
+        let ctx = canvas.getContext("2d");
+        let img = new Image();
+        img.src = src;
+        img.onload = function() {
+          ctx.drawImage(img, 0, 0, canvas.clientWidth, canvas.clientHeight);
+          img.style.display = "none";
+        };
+      }
 
-      <script>
-          function loadImg(targetID,src){
-            
-let canvas = document.getElementById(targetID);
-let ctx = canvas.getContext('2d');
-let img = new Image();
-img.src = src;
-img.onload = function() {
-  ctx.drawImage(img, 0, 0,canvas.clientWidth,canvas.clientHeight);
-  img.style.display = 'none';
-};
-          }
-         
-      let colour={
+      let colour = {
         red: 0,
-        green:255,
-        blue:0,
-      }   
+        green: 255,
+        blue: 0
+      };
       function grayScaled() {
-       let imageData = getImageDataByID("source");
-        let data= imageData.data;
-    // iterate over all pixels
-   
-    for(var i = 0, n = data.length; i < n; i += 4) {
-    data[i]= data[i]*33/100 
-    data[i+1]=data[i+1]*33/100 
-    data[i+2]= data[i+2] * 33/100
-}
-  
-   return imageData;
-}
+        let imageData = getImageDataByID("source");
+        let data = imageData.data;
+        // iterate over all pixels
 
-function getImageDataByID(id){
-    let src= document.getElementById(id);
-        let ctx=  src.getContext("2d");
+        for (var i = 0, n = data.length; i < n; i += 4) {
+          data[i] = (data[i] * 33) / 100;
+          data[i + 1] = (data[i + 1] * 33) / 100;
+          data[i + 2] = (data[i + 2] * 33) / 100;
+        }
+
+        return imageData;
+      }
+
+      function getImageDataByID(id) {
+        let src = document.getElementById(id);
+        let ctx = src.getContext("2d");
         // interactive
-        return imageData = ctx.getImageData(src.width*xStart/100, src.height*yStart/100,src.width*xEnd/100,src.height*yEnd/100);
-        
-}
+        return (imageData = ctx.getImageData(
+          (src.width * xStart) / 100,
+          (src.height * yStart) / 100,
+          (src.width * xEnd) / 100,
+          (src.height * yEnd) / 100
+        ));
+      }
 
-function binrisation(id="source"){
-    let imageData= getImageDataByID(id);
-    let data= imageData.data;
-    let grayRatio=150;
-    for(var i = 0, n = data.length; i < n; i += 4) {
-    var gray = data[i]+ data[i+1] + data[i+2] ;
-    if(gray > grayRatio) {
+      function binrisation(id = "source") {
+        let imageData = getImageDataByID(id);
+        let data = imageData.data;
+        let grayRatio = 150;
+        for (var i = 0, n = data.length; i < n; i += 4) {
+          var gray = data[i] + data[i + 1] + data[i + 2];
+          if (gray > grayRatio) {
             // pixel is white.
-            data[i] = data[i+1] =  data[i+2]= 0
-       data[i + 3] = 255;
-                             
-    }else {
-        // pixel black
-        // was 255, now its 0 , 0
-        data[i] = data[i+1] =  data[i+2]= 0
-       data[i + 3] = 0;
-    }   }
-    return imageData;
-}
-      
-function binaryImage()
-{
-    let ctx= result.getContext("2d")
-    ctx.drawImage(source,0,0);
-    let imgData = grayScaled();
-    ctx.putImageData(imgData, 0,0);
+            data[i] = data[i + 1] = data[i + 2] = 0;
+            data[i + 3] = 255;
+          } else {
+            // pixel black
+            // was 255, now its 0 , 0
+            data[i] = data[i + 1] = data[i + 2] = 0;
+            data[i + 3] = 0;
+          }
+        }
+        return imageData;
+      }
 
-    imgData= binrisation("result");
-    // let TempCanvas = document.createElement('canvas');
-    // let TempCtx = TempCanvas.getContext('2d');
-    ctx.putImageData(imgData, 0,0);
+      function binaryImage() {
+        let ctx = result.getContext("2d");
+        ctx.drawImage(source, 0, 0);
+        let imgData = grayScaled();
+        ctx.putImageData(imgData, 0, 0);
 
-    // ctx.drawImage(TempCanvas,xStart,yStart);
-    // result.drawImage();
-  
-}
+        imgData = binrisation("result");
+        // let TempCanvas = document.createElement('canvas');
+        // let TempCtx = TempCanvas.getContext('2d');
+        ctx.putImageData(imgData, 0, 0);
 
-function getGray(){
-    
-    let ctx= result.getContext("2d")
-    ctx.drawImage(source,0,0);
-    let imgData = grayScaled();
-    ctx.putImageData(imgData, 0,0);
-}
+        // ctx.drawImage(TempCanvas,xStart,yStart);
+        // result.drawImage();
+      }
 
+      function getGray() {
+        let ctx = result.getContext("2d");
+        ctx.drawImage(source, 0, 0);
+        let imgData = grayScaled();
+        ctx.putImageData(imgData, 0, 0);
+      }
 
-function clear(canvasID){
- let ctx = canvasID.getContext("2d")
- ctx.clearRect(0,0,canvasID.width,canvasID.height)
-}
-function drawPart(canvasID,xStart,yStart,xEnd,yEnd){
-  let ctx = canvasID.getContext("2d")
-  ctx.beginPath();
-  ctx.rect(canvasID.width*xStart/100, canvasID.height*yStart/100,canvasID.width*xEnd/100, canvasID.height*yEnd/100);
-  ctx.stroke();
-}
+      function clear(canvasID) {
+        let ctx = canvasID.getContext("2d");
+        ctx.clearRect(0, 0, canvasID.width, canvasID.height);
+      }
+      function drawPart(canvasID, xStart, yStart, xEnd, yEnd) {
+        let ctx = canvasID.getContext("2d");
+        ctx.beginPath();
+        ctx.rect(
+          (canvasID.width * xStart) / 100,
+          (canvasID.height * yStart) / 100,
+          (canvasID.width * xEnd) / 100,
+          (canvasID.height * yEnd) / 100
+        );
+        ctx.stroke();
+      }
 
-
-      loadImg("source","pizzaGree.jpg")
+      loadImg("source", "pizzaGree.jpg");
 
       // Loading image script -- MDN
-      // return path to temp pic 
-      let tempPath="";
-function showImage(src,target) {
-    let x = target;
-    let fr = new FileReader();
-    fr.onload = function(){
-        tempPath= fr.result;
-        loadImg(x,fr.result);
-    }
-    fr.readAsDataURL(src.files[0]);
-}
+      // return path to temp pic
+      let tempPath = "";
+      function showImage(src, target) {
+        let x = target;
+        let fr = new FileReader();
+        fr.onload = function() {
+          tempPath = fr.result;
+          loadImg(x, fr.result);
+        };
+        fr.readAsDataURL(src.files[0]);
+      }
 
-function imgUpload(source,toTarget) {
-    let src = document.getElementById(source);
-    showImage(src, toTarget);
-}
-function sourceSubmit(){
-  clear(source);
-  imgUpload("sourceUpload","source")  
-}
-function targetSubmit(){
-  clear(bg);
-  imgUpload("targetUpload","bg");
-}
-// thanks, http://blog.acipo.com/blob-detection-js/
-function blobDetect(){
-    let canvas = document.getElementById('result');
-    let contex = canvas.getContext('2d');
-    let imageData = contex.getImageData(0,0,canvas.width,canvas.height);
+      function imgUpload(source, toTarget) {
+        let src = document.getElementById(source);
+        showImage(src, toTarget);
+      }
+      function sourceSubmit() {
+        clear(source);
+        imgUpload("sourceUpload", "source");
+      }
+      function targetSubmit() {
+        clear(bg);
+        imgUpload("targetUpload", "bg");
+      }
+      // thanks, http://blog.acipo.com/blob-detection-js/
+      function blobDetect() {
+        let canvas = document.getElementById("result");
+        let contex = canvas.getContext("2d");
+        let imageData = contex.getImageData(0, 0, canvas.width, canvas.height);
 
-    let blobLabels = FindBlobs(imageData);
+        let blobLabels = FindBlobs(imageData);
 
-    let blobCanvas = document.getElementById('source');
-    let blobContex = blobCanvas.getContext('2d');
-    let blobImageData = contex.getImageData(0,0,canvas.width,canvas.height);
+        let blobCanvas = document.getElementById("source");
+        let blobContex = blobCanvas.getContext("2d");
+        let blobImageData = contex.getImageData(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
 
-    ColorTheBlobs(blobImageData,blobLabels,[
-        [0,0,0,255],
-        [255,0,0,255],
-        [0,255,0,255],
-        [0,0,255,255],
-        [255,255,0,255],
-        [255,0,255,255],
-        [0,255,255,255]
-    ]);
+        ColorTheBlobs(blobImageData, blobLabels, [
+          [0, 0, 0, 255],
+          [255, 0, 0, 255],
+          [0, 255, 0, 255],
+          [0, 0, 255, 255],
+          [255, 255, 0, 255],
+          [255, 0, 255, 255],
+          [0, 255, 255, 255]
+        ]);
 
-    blobContex.putImageData(blobImageData,0,0);
-}
+        blobContex.putImageData(blobImageData, 0, 0);
+      }
 
-function ColorTheBlobs(dst,blobs,colors){
-    var xSize = dst.width,
-        ySize = dst.height,
-        dstPixels = dst.data,
-        x, y, pos;
+      function ColorTheBlobs(dst, blobs, colors) {
+        var xSize = dst.width,
+          ySize = dst.height,
+          dstPixels = dst.data,
+          x,
+          y,
+          pos;
 
-    var label, color, nColors = colors.length;
+        var label,
+          color,
+          nColors = colors.length;
 
-    for(y=0; y<ySize; y++){
-        for(x=0; x<xSize; x++){
-            pos = (y*xSize+x)*4;
+        for (y = 0; y < ySize; y++) {
+          for (x = 0; x < xSize; x++) {
+            pos = (y * xSize + x) * 4;
 
             label = blobs[y][x];
 
-            if( label !== 0 ){
-                color = colors[ label % nColors ];
-                dstPixels[ pos+0 ] = color[0];
-                dstPixels[ pos+1 ] = color[1];
-                dstPixels[ pos+2 ] = color[2];
-                dstPixels[ pos+3 ] = color[3];
-            }else{
-                dstPixels[ pos+3 ] = 0;
+            if (label !== 0) {
+              color = colors[label % nColors];
+              dstPixels[pos + 0] = color[0];
+              dstPixels[pos + 1] = color[1];
+              dstPixels[pos + 2] = color[2];
+              dstPixels[pos + 3] = color[3];
+            } else {
+              dstPixels[pos + 3] = 0;
             }
+          }
         }
-    }
+      }
 
-}
+      function unique(arr) {
+        /// Returns an object with the counts of unique elements in arr
+        /// unique([1,2,1,1,1,2,3,4]) === { 1:4, 2:2, 3:1, 4:1 }
 
-function unique(arr){
-/// Returns an object with the counts of unique elements in arr
-/// unique([1,2,1,1,1,2,3,4]) === { 1:4, 2:2, 3:1, 4:1 }
-
-    var value, counts = {};
-    var i, l = arr.length;
-    for( i=0; i<l; i+=1) {
-        value = arr[i];
-        if( counts[value] ){
+        var value,
+          counts = {};
+        var i,
+          l = arr.length;
+        for (i = 0; i < l; i += 1) {
+          value = arr[i];
+          if (counts[value]) {
             counts[value] += 1;
-        }else{
+          } else {
             counts[value] = 1;
+          }
         }
-    }
 
-    return counts;
-}
+        return counts;
+      }
 
-function FindBlobs(src) {
+      function FindBlobs(src) {
+        var xSize = src.width,
+          ySize = src.height,
+          srcPixels = src.data,
+          x,
+          y,
+          pos;
 
-  var xSize = src.width,
-      ySize = src.height,
-      srcPixels = src.data,
-      x, y, pos;
+        // This will hold the indecies of the regions we find
+        var blobMap = [];
+        var label = 1;
 
-  // This will hold the indecies of the regions we find
-  var blobMap = [];
-  var label = 1;
+        // The labelTable remember when blobs of differen labels merge
+        // so labelTabel[1] = 2; means that label 1 and 2 are the same blob
+        var labelTable = [0];
 
-  // The labelTable remember when blobs of differen labels merge
-  // so labelTabel[1] = 2; means that label 1 and 2 are the same blob
-  var labelTable = [0];
+        // Start by labeling every pixel as blob 0
+        for (y = 0; y < ySize; y++) {
+          blobMap.push([]);
+          for (x = 0; x < xSize; x++) {
+            blobMap[y].push(0);
+          }
+        }
 
-  // Start by labeling every pixel as blob 0
-  for(y=0; y<ySize; y++){
-    blobMap.push([]);
-    for(x=0; x<xSize; x++){
-      blobMap[y].push(0);
-    }
-  }  
+        // Temporary variables for neighboring pixels and other stuff
+        var nn, nw, ne, ww, ee, sw, ss, se, minIndex;
+        var luma = 0;
+        var isVisible = 0;
 
-  // Temporary variables for neighboring pixels and other stuff
-  var nn, nw, ne, ww, ee, sw, ss, se, minIndex;
-  var luma = 0;
-  var isVisible = 0;
+        // We're going to run this algorithm twice
+        // The first time identifies all of the blobs candidates the second pass
+        // merges any blobs that the first pass failed to merge
+        var nIter = 2;
+        while (nIter--) {
+          // We leave a 1 pixel border which is ignored so we do not get array
+          // out of bounds errors
+          for (y = 1; y < ySize - 1; y++) {
+            for (x = 1; x < xSize - 1; x++) {
+              pos = (y * xSize + x) * 4;
 
-  // We're going to run this algorithm twice
-  // The first time identifies all of the blobs candidates the second pass
-  // merges any blobs that the first pass failed to merge
-  var nIter = 2;
-  while( nIter-- ){
+              // We're only looking at the alpha channel in this case but you can
+              // use more complicated heuristics
+              isVisible = srcPixels[pos + 3] > 127;
 
-    // We leave a 1 pixel border which is ignored so we do not get array
-    // out of bounds errors
-    for( y=1; y<ySize-1; y++){
-      for( x=1; x<xSize-1; x++){
+              if (isVisible) {
+                // Find the lowest blob index nearest this pixel
+                nw = blobMap[y - 1][x - 1] || 0;
+                nn = blobMap[y - 1][x - 0] || 0;
+                ne = blobMap[y - 1][x + 1] || 0;
+                ww = blobMap[y - 0][x - 1] || 0;
+                ee = blobMap[y - 0][x + 1] || 0;
+                sw = blobMap[y + 1][x - 1] || 0;
+                ss = blobMap[y + 1][x - 0] || 0;
+                se = blobMap[y + 1][x + 1] || 0;
+                minIndex = ww;
+                if (0 < ww && ww < minIndex) {
+                  minIndex = ww;
+                }
+                if (0 < ee && ee < minIndex) {
+                  minIndex = ee;
+                }
+                if (0 < nn && nn < minIndex) {
+                  minIndex = nn;
+                }
+                if (0 < ne && ne < minIndex) {
+                  minIndex = ne;
+                }
+                if (0 < nw && nw < minIndex) {
+                  minIndex = nw;
+                }
+                if (0 < ss && ss < minIndex) {
+                  minIndex = ss;
+                }
+                if (0 < se && se < minIndex) {
+                  minIndex = se;
+                }
+                if (0 < sw && sw < minIndex) {
+                  minIndex = sw;
+                }
 
-        pos = (y*xSize+x)*4;
+                // This point starts a new blob -- increase the lable count and
+                // and an entry for it in the label table
+                if (minIndex === 0) {
+                  blobMap[y][x] = label;
+                  labelTable.push(label);
+                  label += 1;
 
-        // We're only looking at the alpha channel in this case but you can
-        // use more complicated heuristics
-        isVisible = (srcPixels[pos+3] > 127);
+                  // This point is part of an old blob -- update the labels of the
+                  // neighboring pixels in the label table so that we know a merge
+                  // should occur and mark this pixel with the label.
+                } else {
+                  if (minIndex < labelTable[nw]) {
+                    labelTable[nw] = minIndex;
+                  }
+                  if (minIndex < labelTable[nn]) {
+                    labelTable[nn] = minIndex;
+                  }
+                  if (minIndex < labelTable[ne]) {
+                    labelTable[ne] = minIndex;
+                  }
+                  if (minIndex < labelTable[ww]) {
+                    labelTable[ww] = minIndex;
+                  }
+                  if (minIndex < labelTable[ee]) {
+                    labelTable[ee] = minIndex;
+                  }
+                  if (minIndex < labelTable[sw]) {
+                    labelTable[sw] = minIndex;
+                  }
+                  if (minIndex < labelTable[ss]) {
+                    labelTable[ss] = minIndex;
+                  }
+                  if (minIndex < labelTable[se]) {
+                    labelTable[se] = minIndex;
+                  }
 
-        if( isVisible ){
+                  blobMap[y][x] = minIndex;
+                }
 
-          // Find the lowest blob index nearest this pixel
-          nw = blobMap[y-1][x-1] || 0;
-          nn = blobMap[y-1][x-0] || 0;
-          ne = blobMap[y-1][x+1] || 0;
-          ww = blobMap[y-0][x-1] || 0;
-          ee = blobMap[y-0][x+1] || 0;
-          sw = blobMap[y+1][x-1] || 0;
-          ss = blobMap[y+1][x-0] || 0;
-          se = blobMap[y+1][x+1] || 0;
-          minIndex = ww;
-          if( 0 < ww && ww < minIndex ){ minIndex = ww; }
-          if( 0 < ee && ee < minIndex ){ minIndex = ee; }
-          if( 0 < nn && nn < minIndex ){ minIndex = nn; }
-          if( 0 < ne && ne < minIndex ){ minIndex = ne; }
-          if( 0 < nw && nw < minIndex ){ minIndex = nw; }
-          if( 0 < ss && ss < minIndex ){ minIndex = ss; }
-          if( 0 < se && se < minIndex ){ minIndex = se; }
-          if( 0 < sw && sw < minIndex ){ minIndex = sw; }
-  
-          // This point starts a new blob -- increase the lable count and
-          // and an entry for it in the label table
-          if( minIndex === 0 ){
-            blobMap[y][x] = label;
-            labelTable.push(label);
-            label += 1;
-  
-          // This point is part of an old blob -- update the labels of the
-          // neighboring pixels in the label table so that we know a merge
-          // should occur and mark this pixel with the label.
-          }else{
-            if( minIndex < labelTable[nw] ){ labelTable[nw] = minIndex; }
-            if( minIndex < labelTable[nn] ){ labelTable[nn] = minIndex; }
-            if( minIndex < labelTable[ne] ){ labelTable[ne] = minIndex; }
-            if( minIndex < labelTable[ww] ){ labelTable[ww] = minIndex; }
-            if( minIndex < labelTable[ee] ){ labelTable[ee] = minIndex; }
-            if( minIndex < labelTable[sw] ){ labelTable[sw] = minIndex; }
-            if( minIndex < labelTable[ss] ){ labelTable[ss] = minIndex; }
-            if( minIndex < labelTable[se] ){ labelTable[se] = minIndex; }
-
-            blobMap[y][x] = minIndex;
+                // This pixel isn't visible so we won't mark it as special
+              } else {
+                blobMap[y][x] = 0;
+              }
+            }
           }
 
-        // This pixel isn't visible so we won't mark it as special
-        }else{
-          blobMap[y][x] = 0;
+          // Compress the table of labels so that every location refers to only 1
+          // matching location
+          var i = labelTable.length;
+          while (i--) {
+            label = labelTable[i];
+            while (label !== labelTable[label]) {
+              label = labelTable[label];
+            }
+            labelTable[i] = label;
+          }
+
+          // Merge the blobs with multiple labels
+          for (y = 0; y < ySize; y++) {
+            for (x = 0; x < xSize; x++) {
+              label = blobMap[y][x];
+              if (label === 0) {
+                continue;
+              }
+              while (label !== labelTable[label]) {
+                label = labelTable[label];
+              }
+              blobMap[y][x] = label;
+            }
+          }
         }
-  
-      }
-    }
-  
-    // Compress the table of labels so that every location refers to only 1
-    // matching location
-    var i = labelTable.length;
-    while( i-- ){
-      label = labelTable[i];
-      while( label !== labelTable[label] ){
-        label = labelTable[label];
-      }
-      labelTable[i] = label;
-    }
-  
-    // Merge the blobs with multiple labels
-    for(y=0; y<ySize; y++){
-      for(x=0; x<xSize; x++){
-        label = blobMap[y][x];
-        if( label === 0 ){ continue; }
-        while( label !== labelTable[label] ){
-          label = labelTable[label];
+
+        // The blobs may have unusual labels: [1,38,205,316,etc..]
+        // Let's rename them: [1,2,3,4,etc..]
+
+        var uniqueLabels = unique(labelTable);
+        var i = 0;
+        for (label in uniqueLabels) {
+          labelTable[label] = i++;
         }
-        blobMap[y][x] = label;
+
+        // convert the blobs to the minimized labels
+        for (y = 0; y < ySize; y++) {
+          for (x = 0; x < xSize; x++) {
+            label = blobMap[y][x];
+            blobMap[y][x] = labelTable[label];
+          }
+        }
+
+        // Return the blob data:
+        return blobMap;
       }
-    }
-  }
-
-  // The blobs may have unusual labels: [1,38,205,316,etc..]
-  // Let's rename them: [1,2,3,4,etc..]
-
-  var uniqueLabels = unique(labelTable);
-  var i = 0;
-  for( label in uniqueLabels ){
-    labelTable[label] = i++;
-  }
-
-  // convert the blobs to the minimized labels
-  for(y=0; y<ySize; y++){
-    for(x=0; x<xSize; x++){
-      label = blobMap[y][x];
-      blobMap[y][x] = labelTable[label];
-    }
-  }
-
-  // Return the blob data:
-  return blobMap;
-
-};
-
-
-      </script>
-      <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-      
-</body>
+    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
