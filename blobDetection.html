@@ -11,7 +11,9 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-
+    <style>
+  
+    </style>
     <!-- Tangle -->
     <script type="text/javascript" src="Tangle.js"></script>
 
@@ -65,13 +67,14 @@
   <body onload="setUpTangle();">
     <div class="container">
       <div class="row">
+        
         <div class="col-sm">
           Source image
           <canvas class="img-thumbnail" id="source"></canvas>
           <canvas
             class="img-thumbnail"
             id="sourceLine"
-            style="transform: translate(-100%,0%);
+            style="transform: translate(-100%,0%); width: 90%;
             position: absolute;    background-color: transparent;"
           ></canvas>
 
@@ -89,14 +92,16 @@
             <!-- <img id=result src="mario.jpg" class="img-thumbnail" alt="" srcset="">           -->
           </canvas>
         </div>
+
+        
+        <div class="col-sm">
+          Blob Detected <br />
+          <canvas class="img-thumbnail" id="BlobImage"></canvas>
+          <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
+        </div>
       </div>
       <div class="row-">
       
-          <div class="col-sm">
-            Blob Detected <br />
-            <canvas class="img-thumbnail" id="BlobImage"></canvas>
-            <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
-          </div>
        
       </div>
       <div class="row">
@@ -108,13 +113,13 @@
                     ( img(x,y).red   * <span data-var="red" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>, 
                       img(x,y).green * <span data-var="green" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>, 
                       img(x,y).blue  * <span data-var="blue" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>)
-                    <a href="#" onclick="getGray()">getGrayScaledImage();</a>
+                    <a style="cursor:pointer; color: #007bff;"  onclick="getGray()">getGrayScaledImage();</a>
                     if(grayRatio <  <span data-var="gray" class="TKAdjustableNumber" data-min="1" data-max="255"></span> )
                         img(x,y) = white                        <!-- can add RGB to change and have fun :)  -->
                     else  
                         img(x,y) = black
-               <a href="#" onclick="binaryImage()">GetBinarisedImage();</a>
-               <a href="#" onclick="blobDetect()">DetectBlob();</a>
+               <a style="cursor:pointer; color: #007bff;" onclick="binaryImage()">GetBinarisedImage();</a>
+               <a style="cursor:pointer; color: #007bff;"  onclick="blobDetect()">DetectBlob();</a>
 
                          
            </pre>
@@ -146,7 +151,7 @@
         let img = new Image();
         img.src = src;
         img.onload = function() {
-          ctx.drawImage(img, 0, 0, canvas.clientWidth, canvas.clientHeight);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           img.style.display = "none";
         };
       }
