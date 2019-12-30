@@ -24,7 +24,7 @@
 
     <!-- example -->
     <script type="text/javascript">
-      let xStart, xEnd, yStart, yEnd;
+      let xStart, xEnd, yStart, yEnd,grayThreshold;
       function setUpTangle() {
         var element = document.getElementById("codeText");
 
@@ -34,9 +34,10 @@
             this.yRatio = yEnd = 50;
             this.xStartRatio = xStart = 0;
             this.yStartRatio = yStart = 0;
-            this.red = 50;
-            this.green = 50;
-            this.blue = 50;
+            this.red = 33;
+            this.green = 33;
+            this.blue = 33;
+            this.gray= grayThreshold = 150;
           },
           update: function() {
             xEnd = this.xRatio;
@@ -46,6 +47,7 @@
             colour.red = this.red;
             colour.green = this.green;
             colour.blue = this.blue;
+            grayThreshold = this.gray;
 
             clear(sourceLine);
             drawPart(
@@ -89,13 +91,13 @@
         </div>
       </div>
       <div class="row-">
-        <center>
+      
           <div class="col-sm">
-            Source image <br />
+            Blob Detected <br />
             <canvas class="img-thumbnail" id="BlobImage"></canvas>
             <!-- <img id=source src="pizzaGree.jpg" class="img-thumbnail" alt="" srcset=""> -->
           </div>
-        </center>
+       
       </div>
       <div class="row">
         <pre id="codeText">
@@ -107,12 +109,12 @@
                       img(x,y).green * <span data-var="green" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>, 
                       img(x,y).blue  * <span data-var="blue" class="TKAdjustableNumber" data-min="1" data-max="100">%</span>)
                     <a href="#" onclick="getGray()">getGrayScaledImage();</a>
-                    if(grayRatio <  <span data-var="xRatio" class="TKAdjustableNumber" data-min="1" data-max="255"></span> )
+                    if(grayRatio <  <span data-var="gray" class="TKAdjustableNumber" data-min="1" data-max="255"></span> )
                         img(x,y) = white                        <!-- can add RGB to change and have fun :)  -->
                     else  
                         img(x,y) = black
                <a href="#" onclick="binaryImage()">GetBinarisedImage();</a>
-               <a href="#" onclick="BlobDetect()">DetectBlob();</a>
+               <a href="#" onclick="blobDetect()">DetectBlob();</a>
 
                          
            </pre>
@@ -150,9 +152,9 @@
       }
 
       let colour = {
-        red: 0,
-        green: 255,
-        blue: 0
+        red: 33,
+        green: 33,
+        blue: 33
       };
       function grayScaled() {
         let imageData = getImageDataByID("source");
@@ -160,9 +162,9 @@
         // iterate over all pixels
 
         for (var i = 0, n = data.length; i < n; i += 4) {
-          data[i] = (data[i] * 33) / 100;
-          data[i + 1] = (data[i + 1] * 33) / 100;
-          data[i + 2] = (data[i + 2] * 33) / 100;
+          data[i] = (data[i] * colour.red) / 100;
+          data[i + 1] = (data[i + 1] * colour.green) / 100;
+          data[i + 2] = (data[i + 2] * colour.blue) / 100;
         }
 
         return imageData;
@@ -183,10 +185,10 @@
       function binrisation(id = "source") {
         let imageData = getImageDataByID(id);
         let data = imageData.data;
-        let grayRatio = 150;
+        // let grayRatio = 150;
         for (var i = 0, n = data.length; i < n; i += 4) {
           var gray = data[i] + data[i + 1] + data[i + 2];
-          if (gray > grayRatio) {
+          if (gray > grayThreshold) {
             // pixel is white.
             data[i] = data[i + 1] = data[i + 2] = 0;
             data[i + 3] = 255;
@@ -201,12 +203,13 @@
       }
 
       function binaryImage() {
-        let ctx = result.getContext("2d");
+        getGray();
+        let ctx = binary.getContext("2d");
         ctx.drawImage(source, 0, 0);
         let imgData = grayScaled();
         ctx.putImageData(imgData, 0, 0);
 
-        imgData = binrisation("result");
+        imgData = binrisation("binary");
         // let TempCanvas = document.createElement('canvas');
         // let TempCtx = TempCanvas.getContext('2d');
         ctx.putImageData(imgData, 0, 0);
@@ -216,7 +219,7 @@
       }
 
       function getGray() {
-        let ctx = result.getContext("2d");
+        let ctx = gray.getContext("2d");
         ctx.drawImage(source, 0, 0);
         let imgData = grayScaled();
         ctx.putImageData(imgData, 0, 0);
@@ -267,19 +270,21 @@
       }
       // thanks, http://blog.acipo.com/blob-detection-js/
       function blobDetect() {
-        let canvas = document.getElementById("result");
+        binaryImage();
+        let canvas = document.getElementById("binary");
         let contex = canvas.getContext("2d");
-        let imageData = contex.getImageData(0, 0, canvas.width, canvas.height);
+        
+        let imageData = contex.getImageData(0, 0, canvas.width * xEnd/100, canvas.height*yEnd/100);
 
         let blobLabels = FindBlobs(imageData);
 
-        let blobCanvas = document.getElementById("source");
+        let blobCanvas = document.getElementById("BlobImage");
         let blobContex = blobCanvas.getContext("2d");
         let blobImageData = contex.getImageData(
           0,
           0,
-          canvas.width,
-          canvas.height
+          canvas.width*xEnd/100,
+          canvas.height*yEnd/100
         );
 
         ColorTheBlobs(blobImageData, blobLabels, [
@@ -291,7 +296,7 @@
           [255, 0, 255, 255],
           [0, 255, 255, 255]
         ]);
-
+        blobContex.putImageData(contex.getImageData(0,0,canvas.width,canvas.height),0,0)
         blobContex.putImageData(blobImageData, 0, 0);
       }
 
